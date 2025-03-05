@@ -1,16 +1,13 @@
 package appcrud;
 
-// Java program to delete a contact
-// from the file "friendsContact.txt"
-
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.lang.NumberFormatException;
 
 class DeleteFriend {
 
-    // Método para eliminar un contacto desde la interfaz gráfica
+    // Método para eliminar un contacto
+    //El método recibe los datos de nombre y número a elimianr newName y newnumber
     public static String deleteFriend(String newName, long numberInput) {
         try {
             String nameNumberString;
@@ -19,20 +16,24 @@ class DeleteFriend {
             int index;
 
             // Using file pointer creating the file.
+            //Se crea un objeto File que representa nuestro archivo "friendsContact.txt".
             File file = new File("friendsContact.txt");
 
+            //Si el archivo no existe se crea uno nuevo con file.createNewFile()
             if (!file.exists()) {
                 // Create a new file if not exists.
                 file.createNewFile();
             }
 
             // Opening file in reading and write mode.
+            //Con RandomAccessFile abrimos el archivo en modo lectura y escritura rw
             RandomAccessFile raf = new RandomAccessFile(file, "rw");
             boolean found = false;
 
             // Checking whether the name of contact exists.
             // getFilePointer() give the current offset
             // value from start of the file.
+            //Se realiza la busqueda del nombre y número indicado
             while (raf.getFilePointer() < raf.length()) {
                 // reading line from the file.
                 nameNumberString = raf.readLine();
@@ -45,6 +46,7 @@ class DeleteFriend {
                 number = Long.parseLong(lineSplit[1]);
 
                 // if condition to find existence of record.
+                //Ambas condiciones deben ser verdaderas para poder eliminar
                 if (name.equals(newName) && number == numberInput) {
                     found = true;
                     break;
@@ -63,6 +65,7 @@ class DeleteFriend {
                 raf.seek(0);
 
                 // Traversing the friendsContact.txt file
+                //Creamos un archivo temporal en el que irán los contactos a excepción del que se desea eliminar
                 while (raf.getFilePointer() < raf.length()) {
                     // Reading the contact from the file
                     nameNumberString = raf.readLine();
@@ -104,7 +107,7 @@ class DeleteFriend {
                 return "El contacto ha sido eliminado.";
             } else {
                 raf.close();
-                return "Input name does not exist.";
+                return "El contacto no existe.";
             }
         } catch (IOException ioe) {
             return "Error: " + ioe.getMessage();

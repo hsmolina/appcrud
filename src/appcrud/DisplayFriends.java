@@ -1,8 +1,5 @@
 package appcrud;
 
-// Java program to read from file "friendsContact.txt"
-// and display the contacts
-
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
